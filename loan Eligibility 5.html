@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maha-DBT Bank - Loan Portal</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f5fb;color:#172b4d}
+button{border:0;padding:13px 17px;border-radius:9px;font-weight:bold;cursor:pointer}
+input,select{width:100%;padding:13px;border:1px solid #d8e1ee;border-radius:9px;background:#fbfcff;font-size:14px}
+input:focus,select:focus{outline:2px solid #bcd1ff;border-color:#155eef}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:8px}
+
+/* SIGN IN PAGE */
+.signin-page{
+ min-height:100vh;display:flex;justify-content:center;align-items:center;
+ padding:20px;background:linear-gradient(135deg,#071629,#12345a,#087e8b)
+}
+.signin-card{
+ width:100%;max-width:430px;background:white;padding:35px;
+ border-radius:22px;box-shadow:0 20px 60px #0004;text-align:center
+}
+.signin-logo{font-size:48px;margin-bottom:10px}
+.signin-card h1{color:#12345a;margin:5px 0;font-size:29px}
+.signin-subtitle{color:#64748b;font-size:14px}
+.signin-divider{height:3px;width:65px;background:#13a8a8;margin:22px auto;border-radius:10px}
+.signin-card h2{color:#172b4d}
+.signin-description{color:#64748b;font-size:14px;line-height:1.6}
+.signin-card label{text-align:left;margin-top:17px}
+.signin-card input{margin-bottom:4px}
+.signin-button{
+ width:100%;margin-top:25px;background:linear-gradient(90deg,#12345a,#087e8b);
+ color:white;font-size:16px
+}
+.signin-button:hover{opacity:.9;transform:translateY(-1px)}
+.login-message{color:#b91c1c;font-size:13px}
+.signin-footer{margin-top:22px;color:#0f766e;font-size:13px}
+.demo-note{font-size:11px;color:#94a3b8;line-height:1.5;margin-top:18px}
+
+/* BANKING PORTAL */
+header{background:#10264a;color:white;padding:20px 7%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:23px;font-weight:bold}
+.logo span{color:#62d9c0}
+.secure{font-size:12px;color:#d4e4ff}
+.hero{background:linear-gradient(120deg,#10264a,#2468d9);color:white;padding:40px 7% 65px}
+.hero h1{font-size:36px;margin:12px 0}
+.hero p{line-height:1.7;color:#dce8ff;max-width:600px}
+.tag{display:inline-block;border:1px solid #ffffff55;padding:8px 12px;border-radius:30px;font-size:11px}
+.container{max-width:1100px;margin:-30px auto 40px;padding:0 20px}
+.progress,.panel,.sidebar{background:white;border:1px solid #e0e7f1;border-radius:15px;box-shadow:0 10px 30px #10264a0b}
+.progress{padding:20px;margin-bottom:20px;display:flex;justify-content:space-around;gap:10px;flex-wrap:wrap}
+.progress span{font-size:12px;color:#7a879b;font-weight:bold}
+.progress .active{color:#155eef}
+.content{display:grid;grid-template-columns:1.5fr .8fr;gap:20px;align-items:start}
+.panel{padding:26px}
+h2{font-size:21px;margin-top:0}
+.muted{font-size:13px;color:#718096;line-height:1.6}
+.section{display:none}
+.section.active{display:block}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.field.full{grid-column:1/-1}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:25px;padding-top:20px;border-top:1px solid #e5eaf2}
+.primary{background:#155eef;color:white}
+.secondary{background:#edf2f9;color:#344967}
+.notice{background:#eff6ff;padding:13px;border-radius:9px;color:#385784;font-size:12px;line-height:1.6;margin-top:20px}
+.sidebar{padding:22px}
+.bank-card{background:linear-gradient(135deg,#12346c,#2875e7);color:white;border-radius:12px;padding:22px;margin:15px 0 22px}
+.bank-card small{color:#c9dcff}
+.bank-card h2{font-size:25px;margin:13px 0 5px}
+.feature{display:flex;gap:12px;margin:20px 0}
+.feature-icon{background:#edf3ff;color:#155eef;border-radius:9px;padding:11px;height:39px}
+.feature b{font-size:13px}
+.feature p{font-size:11px;color:#718096;line-height:1.5;margin-bottom:0}
+.review-row{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #e8edf5;font-size:13px}
+.review-row span{color:#718096}
+.review-row strong{text-align:right;overflow-wrap:anywhere}
+.result{text-align:center;padding:20px 0}
+.result-icon{font-size:45px;background:#e3f8ee;color:#12805c;width:80px;height:80px;border-radius:25px;margin:10px auto 20px;display:grid;place-items:center}
+.result p{font-size:13px;color:#718096;line-height:1.7}
+footer{text-align:center;color:#7c8798;padding:25px;font-size:11px;line-height:1.8}
+
+@media(max-width:800px){
+ .content{grid-template-columns:1fr}
+ .hero h1{font-size:29px}
+}
+@media(max-width:480px){
+ .fields{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .panel{padding:18px}
+ header{padding:18px}
+ .secure{display:none}
+ .signin-card{padding:25px 20px}
+}
+@media print{
+ header,.hero,.progress,.sidebar,.actions,footer{display:none}
+ .container{margin:0}
+ .content{display:block}
+ .panel{box-shadow:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1: SIGN IN -->
+<div id="signInPage" class="signin-page">
+ <div class="signin-card">
+  <div class="signin-logo">🏦</div>
+  <h1>Maha-DBT Bank</h1>
+  <p class="signin-subtitle">Smart Banking. Simple Borrowing.</p>
+  <div class="signin-divider"></div>
+
+  <h2>Welcome Back!</h2>
+  <p class="signin-description">
+   Sign in to access your personal loan application portal.
+  </p>
+
+  <form id="signInForm">
+   <label for="loginEmail">Email Address</label>
+   <input id="loginEmail" type="email" placeholder="Enter your email" required>
+
+   <label for="loginPassword">Password</label>
+   <input id="loginPassword" type="password" placeholder="Enter your password" required>
+
+   <button type="submit" class="signin-button">Sign In →</button>
+  </form>
+
+  <p id="loginMessage" class="login-message"></p>
+ </div>
+</div>
+
+<!-- PAGE 2: LOAN APPLICATION PORTAL -->
+<div id="loanPortal" style="display:none">
+
+<header>
+ <div class="logo">✦ Maha-DBT <span>Bank</span></div>
+ <div class="secure">🔒 Student Portal</div>
+ <button class="secondary" onclick="logout()">Sign Out</button>
+</header>
+
+<div class="hero">
+ <span class="tag">PERSONAL BANKING · LOAN SERVICES</span>
+ <h1>Your future starts here.</h1>
+ <p>Explore your loan options through a simple guided application.
+ Enter your details, review your request, and see an educational demonstration result.</p>
+</div>
+
+<div class="container">
+ <div class="progress">
+  <span id="p1" class="active">01 · APPLICANT</span>
+  <span id="p2">02 · LOAN DETAILS</span>
+  <span id="p3">03 · REVIEW</span>
+  <span id="p4">04 · RESULT</span>
+ </div>
+
+ <div class="content">
+  <div class="panel">
+
+   <!-- APPLICANT DETAILS -->
+   <div class="section active" id="s1">
+    <h2>Applicant Information</h2>
+    <p class="muted">Please enter the basic applicant details below.</p>
+
+    <div class="fields">
+     <div class="field">
+      <label>Full Name *</label>
+      <input id="name" placeholder="Enter full name" required>
+     </div>
+     <div class="field">
+      <label>Email Address *</label>
+      <input id="email" type="email" placeholder="name@example.com" required>
+     </div>
+     <div class="field">
+      <label>Mobile Number *</label>
+      <input id="phone" type="tel" placeholder="Enter mobile number" required>
+     </div>
+     <div class="field">
+      <label>Employment Type *</label>
+      <select id="job">
+       <option value="">Select employment</option>
+       <option>Salaried</option>
+       <option>Self-employed</option>
+       <option>Student</option>
+       <option>Other</option>
+      </select>
+     </div>
+     <div class="field full">
+      <label>City / Town *</label>
+      <input id="city" placeholder="Enter your city" required>
+     </div>
+    </div>
+
+    <div class="notice">
+     This is a student demo. Avoid entering real sensitive information.
+     No information is sent to a bank.
+    </div>
+    <div class="actions">
+     <span></span>
+     <button class="primary" onclick="next(1)">Continue →</button>
+    </div>
+   </div>
+
+   <!-- LOAN DETAILS -->
+   <div class="section" id="s2">
+    <h2>Loan Requirements</h2>
+    <p class="muted">Choose your loan type and provide your financial details.</p>
+
+    <div class="fields">
+     <div class="field">
+      <label>Loan Type *</label>
+      <select id="type">
+       <option value="">Select loan</option>
+       <option>Personal Loan</option>
+       <option>Home Loan</option>
+       <option>Education Loan</option>
+       <option>Vehicle Loan</option>
+       <option>Business Loan</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>Loan Amount (₹) *</label>
+      <input id="amount" type="number" min="1000" placeholder="500000">
+     </div>
+     <div class="field">
+      <label>Monthly Income (₹) *</label>
+      <input id="income" type="number" min="0" placeholder="40000">
+     </div>
+     <div class="field">
+      <label>Co-applicant Income (₹)</label>
+      <input id="co" type="number" min="0" value="0">
+     </div>
+     <div class="field">
+      <label>Credit History *</label>
+      <select id="credit">
+       <option value="">Select credit history</option>
+       <option value="1">Good</option>
+       <option value="0">Needs Review</option>
+       <option value="2">Not Sure</option>
+      </select>
+     </div>
+     <div class="field">
+      <label>Repayment Period *</label>
+      <select id="tenure">
+       <option value="">Select period</option>
+       <option>1–3 years</option>
+       <option>4–5 years</option>
+       <option>6–10 years</option>
+       <option>Over 10 years</option>
+      </select>
+     </div>
+    </div>
+
+    <div class="notice">
+     Actual banks may verify documents, credit history, employment and other requirements.
+    </div>
+    <div class="actions">
+     <button class="secondary" onclick="show(1)">← Back</button>
+     <button class="primary" onclick="next(2)">Review →</button>
+    </div>
+   </div>
+
+   <!-- REVIEW -->
+   <div class="section" id="s3">
+    <h2>Review Your Application</h2>
+    <p class="muted">Check your information before running the demo assessment.</p>
+    <div id="summary"></div>
+
+    <div class="notice">
+     This is a simulated application. It does not submit a real bank application.
+    </div>
+    <div class="actions">
+     <button class="secondary" onclick="show(2)">← Edit</button>
+     <button class="primary" onclick="decision()">Run Assessment →</button>
+    </div>
+   </div>
+
+   <!-- RESULT -->
+   <div class="section" id="s4">
+    <div class="result">
+     <div class="result-icon" id="icon">✓</div>
+     <span class="tag" style="color:#916313;border-color:#f0d99c">DEMO RESULT ONLY</span>
+     <h2 id="resultTitle" style="margin-top:20px">Assessment Complete</h2>
+     <p id="resultText"></p>
+     <div id="finalSummary"></div>
+
+     <div class="notice" style="text-align:left">
+      This result is not a bank approval, rejection, credit score or loan offer.
+      It uses a simple educational rule, not a trained banking model.
+     </div>
+     <div class="actions">
+      <button class="secondary" onclick="restart()">New Application</button>
+      <button class="primary" onclick="window.print()">Print Summary</button>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+   <h3>Application Overview</h3>
+   <p class="muted">Your request at a glance</p>
+
+   <div class="bank-card">
+    <small>REQUESTED LOAN AMOUNT</small>
+    <h2 id="sideAmount">₹ —</h2>
+    <p id="sideType">Choose a loan type</p>
+   </div>
+
+   <div class="feature">
+    <div class="feature-icon">✓</div>
+    <div><b>Guided Process</b><p>Complete the form one step at a time.</p></div>
+   </div>
+
+   <div class="feature">
+    <div class="feature-icon">▤</div>
+    <div><b>Application Review</b><p>Review your information before assessment.</p></div>
+   </div>
+
+   <div class="feature">
+    <div class="feature-icon">🔒</div>
+    <div><b>Local Demonstration</b><p>No bank account or external service is connected.</p></div>
+   </div>
+
+   <p class="muted" style="border-top:1px solid #e1e8f2;padding-top:15px">
+    Maha-DBT Bank is a fictional brand used for this student project.
+   </p>
+  </aside>
+ </div>
+</div>
+
+<footer>
+ <b>Maha-DBT Bank · Student Web Development Project</b><br>
+ HTML + CSS + JavaScript · Fictional banking interface · No real application is submitted
+</footer>
+</div>
+
+<script>
+/* SIGN IN */
+document.getElementById("signInForm").addEventListener("submit",function(event){
+ event.preventDefault();
+
+ const email=document.getElementById("loginEmail").value.trim();
+ const password=document.getElementById("loginPassword").value;
+
+ if(email && password){
+  document.getElementById("signInPage").style.display="none";
+  document.getElementById("loanPortal").style.display="block";
+  window.scrollTo(0,0);
+ }
+});
+
+function logout(){
+ document.getElementById("loanPortal").style.display="none";
+ document.getElementById("signInPage").style.display="flex";
+ document.getElementById("signInForm").reset();
+ document.getElementById("loginMessage").textContent="";
+ window.scrollTo(0,0);
+}
+
+/* HELPER FUNCTIONS */
+function value(id){
+ return document.getElementById(id).value.trim();
+}
+
+function money(n){
+ return new Intl.NumberFormat("en-IN",{
+  style:"currency",currency:"INR",maximumFractionDigits:0
+ }).format(Number(n)||0);
+}
+
+function escapeHTML(text){
+ return String(text).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+ });
+}
+
+function row(label,val){
+ return '<div class="review-row"><span>'+label+
+ '</span><strong>'+escapeHTML(val)+'</strong></div>';
+}
+
+/* NAVIGATION */
+function show(n){
+ for(let i=1;i<=4;i++){
+  document.getElementById("s"+i).classList.toggle("active",i===n);
+  const p=document.getElementById("p"+i);
+  p.classList.toggle("active",i===n);
+  p.style.color=i<n?"#12805c":i===n?"#155eef":"#7a879b";
+ }
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function next(step){
+ const required={
+  1:["name","email","phone","job","city"],
+  2:["type","amount","income","co","credit","tenure"]
+ }[step];
+
+ for(const id of required){
+  const el=document.getElementById(id);
+
+  if(!el.value.trim()){
+   alert("Please complete all required fields.");
+   el.focus();
+   return;
+  }
+
+  if(!el.checkValidity()){
+   el.reportValidity();
+   return;
+  }
+ }
+
+ if(step===2)buildSummary();
+ show(step+1);
+}
+
+/* REVIEW SUMMARY */
+function buildSummary(){
+ const credit=value("credit")==="1"?"Good":
+ value("credit")==="0"?"Needs review":"Not sure";
+
+ document.getElementById("summary").innerHTML=
+ row("Applicant",value("name"))+
+ row("Email",value("email"))+
+ row("Mobile",value("phone"))+
+ row("City",value("city"))+
+ row("Employment",value("job"))+
+ row("Loan type",value("type"))+
+ row("Requested amount",money(value("amount")))+
+ row("Monthly income",money(value("income")))+
+ row("Co-applicant income",money(value("co")))+
+ row("Credit history",credit)+
+ row("Repayment period",value("tenure"));
+
+ updateCard();
+}
+
+function updateCard(){
+ document.getElementById("sideAmount").textContent=
+ value("amount")?money(value("amount")):"₹ —";
+
+ document.getElementById("sideType").textContent=
+ value("type")||"Choose a loan type";
+}
+
+document.getElementById("amount").addEventListener("input",updateCard);
+document.getElementById("type").addEventListener("change",updateCard);
+
+/* DEMO LOAN ASSESSMENT */
+function decision(){
+ const income=Number(value("income"));
+ const co=Number(value("co"));
+ const amount=Number(value("amount"));
+ const credit=value("credit");
+ const total=income+co;
+ const ratio=amount/Math.max(total,1);
+
+ // Educational demonstration rule only.
+ let score=45+(credit==="1"?25:credit==="0"?-15:0)
+ +Math.min(total/5000,15)-Math.min(ratio*2,25);
+
+ score=Math.max(5,Math.min(95,Math.round(score)));
+
+ const likely=score>=55;
+
+ document.getElementById("icon").textContent=likely?"✓":"!";
+ document.getElementById("resultTitle").textContent=
+ likely?"Potentially Suitable — Demo Result":
+ "Further Review Suggested — Demo Result";
+
+ document.getElementById("resultText").textContent=
+ "Illustrative indicator: "+score+
+ "%. Combined monthly income: "+money(total)+
+ ". Requested loan: "+money(amount)+
+ ". This percentage is not a real loan approval probability.";
+
+ document.getElementById("finalSummary").innerHTML=
+ row("Demo indicator",score+"%")+
+ row("Combined monthly income",money(total))+
+ row("Loan-to-monthly-income ratio",ratio.toFixed(1)+"×")+
+ row("Loan category",value("type"));
+
+ show(4);
+}
+
+/* NEW APPLICATION */
+function restart(){
+ document.querySelectorAll("#loanPortal input").forEach(el=>el.value="");
+ document.getElementById("co").value="0";
+ document.querySelectorAll("#loanPortal select").forEach(el=>el.selectedIndex=0);
+ updateCard();
+ show(1);
+}
+</script>
+
+</body>
+</html>
